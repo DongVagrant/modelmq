@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- mysql驱动jar包位置 -->
+    <classPathEntry
+            location="D:\maven\mvnRespo2\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar"/>
+
+    <!-- sqlserver驱动jar包位置 -->
+    <!--<classPathEntry-->
+            <!--location="D:\maven\mvnRespo2\com\microsoft\sqlserver\sqljdbc4\4.0\sqljdbc4-4.0.jar"/>-->
+    <context id="context2">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+        <!--<jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"-->
+                        <!--connectionURL="jdbc:sqlserver://mssql.biyao.com:1433;database=by_dz_new"-->
+                        <!--userId="by_test"-->
+                        <!--password="0-dev..Com"/>-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.99.63:3306/by_productmanage"
+                        userId="biyao"
+                        password="biyao"/>
+
+        <javaModelGenerator targetPackage="com.biyao.productmanage.soa.model.ar"
+                            targetProject="E:\trunk\productmanage.biyao.com\productmanage-dubbo-soa\productmanage-soa-model\src\main\java"/>
+        <sqlMapGenerator targetPackage="com.biyao.productmanage.soa.mapper.ar"
+                         targetProject="E:\trunk\productmanage.biyao.com\productmanage-dubbo-soa\productmanage-soa-mapper\src\main\resources"/>
+        <javaClientGenerator targetPackage="com.biyao.productmanage.soa.mapper.ar"
+                             targetProject="E:\trunk\productmanage.biyao.com\productmanage-dubbo-soa\productmanage-soa-mapper\src\main\java" type="XMLMAPPER"/>
+
+        <!--走心贴士-->
+        <!--<table modelType="flat" tableName=" ">-->
+            <!--<columnOverride column="content1" jdbcType="VARCHAR"></columnOverride>-->
+            <!--<columnOverride column="content2" jdbcType="VARCHAR"></columnOverride>-->
+        <!--</table>-->
+
+
+
+    </context>
+</generatorConfiguration>

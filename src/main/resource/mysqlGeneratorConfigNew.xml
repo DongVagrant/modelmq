@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+	<!-- 在MBG工作的时候，需要额外加载的依赖包location属性指明加载jar/zip包的全路径-->
+	<!-- <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
+	<!--<classPathEntry location="E:/DocumentOfProject/Marven/mysql/mysql-connector-java/5.1.26/mysql-connector-java-5.1.26.jar" />-->
+	<classPathEntry location="E:/DocumentOfProject/Marven/com/microsoft/sqlserver/sqljdbc4/4.0/sqljdbc4-4.0.jar" />
+
+
+	<!-- 元素类型为 "context" 的内容必须匹配 "(property*,plugin*,commentGenerator?,jdbcConnection,javaTypeResolver?,javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+)"-->
+	<context id="MyBatis3" targetRuntime="MyBatis3"> 
+		
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />  
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />   
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
+
+		<!--service 带Dto  数据库by_product-->
+		<plugin type="org.mybatis.generator.plugins.MybatisServiceWithDtoPlugin">
+			<property name="targetProject" value="../qproductsoa-server/src/main/java" />
+			<!--service的配置-->
+			<!-- todo 修改目录-->
+			<property name="targetPackage" value="com.wd.mqmodel.service" />
+			<!-- todo 修改目录-->
+			<property name="implementationPackage" value="com.wd.mqmodel.service" />
+			<property name="enableAnnotation" value="true"/>
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByConditionSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" />
+			<property name="enablePaged" value="true" />
+			<!--Dto的包-->
+			<!-- todo 修改目录-->
+
+			<property name="dtoPackage" value="com.biyao.qproductsoaclient.dto.product" />
+			<property name="dtoConverterPackage" value="com.biyao.qproductsoaserver.modeldtoconverter.product" />
+		</plugin>
+
+
+		<!--agent和Controller-->
+		<!--<plugin type="org.mybatis.generator.plugins.MybatisAgentPlugin">-->
+			<!--<property name="targetProject" value="../qproductsoaserver/src/main/java" />-->
+			<!--&lt;!&ndash;service的配置&ndash;&gt;-->
+			<!--<property name="servicePackage" value="com.biyao.qproductsoaserver.service.qproductsoaserver" />-->
+			<!--<property name="serviceImplementationPackage" value="com.biyao.qproductsoaserver.service.product.impl" />-->
+			<!--&lt;!&ndash;agent的配置&ndash;&gt;-->
+			<!--<property name="targetPackage" value="com.biyao.qproductsoaserver.agent.product" />-->
+			<!--<property name="implementationPackage" value="com.biyao.qproductsoaserver.agent.product" />-->
+			<!--<property name="enableAnnotation" value="true"/>-->
+			<!--<property name="enableInsert" value="true" />-->
+			<!--<property name="enableUpdateByConditionSelective" value="true" />-->
+			<!--<property name="enableUpdateByPrimaryKey" value="true" />-->
+			<!--<property name="enableUpdateByPrimaryKeySelective" value="true" />-->
+			<!--<property name="enableUpdateByExample" value="true" />-->
+			<!--<property name="enablePaged" value="true" />-->
+			<!--&lt;!&ndash;Dto的包&ndash;&gt;-->
+			<!--<property name="dtoPackage" value="com.biyao.qproductsoaserver.dto.product" />-->
+		<!--</plugin>-->
+
+
+        
+        <!-- 【不喜欢生成的代码中带有代理的mybatis代码生成器的注解信息，可以配置下面的配置参数关闭注解信息【 -->
+		<commentGenerator>  
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator> 
+
+		<!-- 【数据库连接，必须要有的，使用这个配置链接数据库】-->
+		<!-- @TODO:是否可以扩展  	-->
+		<!--<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/coolead_demo" userId="root" password="coolead">-->
+        	<!--&lt;!&ndash; 这里面可以设置property属性，每一个property属性都设置到配置的Driver上 &ndash;&gt;-->
+    	<!--</jdbcConnection>-->
+ 		<!-- <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@172.20.16.***:1521:CARGO" userId="***" password="***"/> -->
+		<!-- <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" connectionURL="jdbc:sqlserver://localhost:1433;databaseName=OSS;" userId="sa" password="sasa"/>-->
+		<jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+						connectionURL="jdbc:sqlserver://192.168.99.69:1433;database=by_dev" userId="" password="" >
+			<!-- 针对oracle数据库 -->
+			<property name="remarksReporting" value="true"></property>
+		</jdbcConnection>
+		<!--&lt;!&ndash;数据库by_product&ndash;&gt;-->
+		<!--<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.99.63:3306/by_product?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"-->
+			<!--userId="biyaodev" password="biyao" >-->
+			<!--&lt;!&ndash; 针对mysql数据库 &ndash;&gt;-->
+			<!--<property name="useInformationSchema" value="true"></property>-->
+		<!--</jdbcConnection>-->
+
+
+
+<!-- java类型处理器 用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；-->
+       	<!-- 注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型； -->
+    	<javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+	        <!-- 
+	            true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+	            false：默认,
+                scale>0;length>18：使用BigDecimal;
+                scale=0;length[10,18]：使用Long；
+                scale=0;length[5,9]：使用Integer；
+                scale=0;length<5：使用Short；
+	         -->
+        	<property name="forceBigDecimals" value="false"/>
+    	</javaTypeResolver>
+    	
+		<!-- 【生成实体类】 -->
+		<!-- java模型创建器，是必须要的元素负责：-->
+        <!-- 1，key类（见context的defaultModelType）；-->
+        <!-- 2，java类；-->
+        <!-- 3，查询类-->
+        <!-- targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；-->
+        <!-- targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录-->
+		<javaModelGenerator targetPackage="com.wd.mqmodel.model" targetProject="../mytest/src/main/java">
+			<!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false --> 
+			<property name="enableSubPackages" value="true" />
+			<!-- for MyBatis3/MyBatis3Simple自动为每一个生成的类创建一个构造方法，构造方法包含了所有的field；而不是使用setter；-->
+        	<!--<property name="constructorBased" value="false"/> -->
+			<!-- for MyBatis3 / MyBatis3Simple 是否创建一个不可变的类，如果为true，-->
+            <!-- 那么MBG会创建一个没有setter方法的类，取而代之的是类似constructorBased的类 -->
+        	<!--<property name="immutable" value="false"/>-->
+			<!-- 设置一个根对象， 如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中-->
+			<!-- 可以覆盖该选项注意：如果在key class或者record class中有root class相同的属性，MBG就不会重新生成这些属性了，包括：-->
+            <!-- 1，属性名相同，类型相同，有相同的getter/setter方法； -->
+        	<!--<property name="rootClass" value="com._520it.mybatis.domain.BaseDomain"/>-->
+			<!-- 设置是否在getter方法中，对String类型字段调用trim()方法  -->
+        	<!-- <property name="trimStrings" value="true"/> --> 
+		</javaModelGenerator>
+		
+		<!-- 【生成映射XML】 -->
+		<sqlMapGenerator targetPackage="com.wd.mqmodel.mapper.xml" targetProject="../mytest/src/main/java">
+			<!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+        	<property name="enableSubPackages" value="true"/>
+		</sqlMapGenerator> 
+		
+		<!-- 【生成映射类】 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.wd.mqmodel.mapper" targetProject="../mytest/src/main/java">
+			<!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 可以为所有生成的接口添加一个父接口，但是MBG只负责生成，不负责检查-->
+			<property name="rootInterface" value=""/> 
+		</javaClientGenerator> 
+		
+		<!-- 【映射数据表】 -->
+		<!--<table tableName="pet" domainObjectName="Pet" >-->
+			<!--<generatedKey column="ID" sqlStatement="SqlServer" identity="true" />-->
+		<!--</table> -->
+
+
+
+		<!--<table schema="" tableName="su">-->
+			<!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+		<!--</table>-->
+
+
+	</context>
+</generatorConfiguration>

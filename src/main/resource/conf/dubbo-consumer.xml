@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="mytest-consumer"  />
+
+	<!-- 新版本dubbo接口配置-开发环境 使用multicast广播注册中心暴露发现服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" timeout="100000"/>
+
+	<!--作为消费之接口配置接口配置-->
+	<dubbo:reference id="fastDFSImageDubboService" interface="com." version="${dubbo.bfs.version}" group="${dubbo.bfs.group}" owner="fastDFS" timeout="10000" check="false"/>
+
+</beans>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- MySQL-by_productmanage配置 -->
+	<bean id="mysqlPromDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		<!-- 基本jdbc_r参数 -->
+		<property name="driverClassName" value="${jdbc.prom.driverClassName}"/>
+		<property name="url" value="${jdbc.prom.url}"/>
+		<property name="username" value="${jdbc.prom.username}"/>
+		<property name="password" value="${jdbc.prom.password}"/>
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${jdbc.prom.initialSize}"/>
+		<!-- 连接池中最少空闲maxIdle个连接 -->
+		<property name="minIdle" value="${jdbc.prom.minIdle}"/>
+		<!-- 连接池激活的最大数据库连接总数。设为0表示无限制 -->
+		<property name="maxActive" value="${jdbc.prom.maxActive}"/>
+		<!-- 最大建立连接等待时间，单位为 ms，如果超过此时间将接到异常。设为-1表示无限制 -->
+		<property name="maxWait" value="${jdbc.prom.maxWait}"/>
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.prom.timeBetweenEvictionRunsMillis}"/>
+		<!-- 配置连接池中连接可空闲的时间(针对连接池中的连接对象.空闲超过这个时间则断开，直到连接池中的连接数到minIdle为止)，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.prom.minEvictableIdleTimeMillis}"/>
+		<!-- 建议配置为true，不影响性能，并且保证安全性 -->
+		<property name="testWhileIdle" value="true"/>
+		<!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+		<property name="testOnBorrow" value="false"/>
+		<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+		<property name="testOnReturn" value="false"/>
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小(Oracle或mysql5.5及以上使用) -->
+		<property name="poolPreparedStatements" value="true"/>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat"/>
+		<!-- 配置关闭长时间不使用的连接 -->
+		<!-- 是否清理removeAbandonedTimeout秒没有使用的活动连接,清理后并没有放回连接池(针对未被close的活动连接) -->
+		<property name="removeAbandoned" value="true"/>
+		<!-- 活动连接的最大空闲时间,1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="${jdbc.prom.removeAbandonedTimeout}"/>
+		<!-- 连接池收回空闲的活动连接时是否打印消息 -->
+		<property name="logAbandoned" value="true"/>
+	</bean>
+
+
+	<!-- 定义SqlSessionTemplate -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--注入数据库连接池 -->
+		<property name="dataSource" ref="mysqlPromDataSource"/>
+		<!--扫描entity包,使用别名,多个用;隔开 -->
+		<!-- <property name="typeAliasesPackage" value="com.wd.expresssoa.mapper" /> -->
+		<!--扫描sql配置文件:mapper需要的xml文件 -->
+		<!--<property name="mapperLocations" value="classpath:com/wd/mqmodel/mapper/**/*.xml"/>-->
+		<property name="configLocation" value="classpath:spring-mybatis.xml"/>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.wd.mqmodel.mapper"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mysqlPromDataSource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+</beans>
