@@ -25,8 +25,9 @@
 	<import resource="classpath:conf/dubbo-consumer.xml" />
 
 
-	<context:component-scan base-package="com.wd.mqmodel.dao"></context:component-scan>
-	<context:component-scan base-package="com.wd.mqmodel.service"></context:component-scan>
+	<context:component-scan base-package="com.wd">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+	</context:component-scan>
 	<!--<context:component-scan base-package="com.biyao.sjtools.framework"></context:component-scan>-->
 
 	<bean id="multipartResolver"  

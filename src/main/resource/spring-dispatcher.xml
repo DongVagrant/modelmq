@@ -37,17 +37,18 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="viewResolver"
-		  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<!-- <property name="cache" value="true" /> -->
-		<property name="prefix" value="" />
-		<property name="suffix" value=".ftl" />
-		<property name="contentType" value="text/html;charset=UTF-8"></property>
-	</bean>
+	<!--<bean id="viewResolver"-->
+		  <!--class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">-->
+		<!--&lt;!&ndash; <property name="cache" value="true" /> &ndash;&gt;-->
+		<!--<property name="prefix" value="" />-->
+		<!--<property name="suffix" value=".ftl" />-->
+		<!--<property name="contentType" value="text/html;charset=UTF-8"></property>-->
+	<!--</bean>-->
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/"/>
 		<property name="suffix" value=".jsp"/>
+		<property name="contentType" value="text/html;charset=utf-8" />
 	</bean>
 
 	<!-- 解决@ResponseBody注解直接返回对象并转换成JSON时出现406问题，同时解决了返回String类型乱码的问题（选配） -->

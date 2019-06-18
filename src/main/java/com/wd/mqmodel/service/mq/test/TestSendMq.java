@@ -16,6 +16,8 @@ public class  TestSendMq extends BaseMqProducerHandler {
     @Value("${mq.test.topic}")
     private String topic;
 
+    private String consumerMessage;
+
 //    @Value
 //    private String tag;
 
@@ -28,8 +30,44 @@ public class  TestSendMq extends BaseMqProducerHandler {
     }
 
 
-    public Boolean testSendMq(String message){
+    public String testSendMq(String message) throws InterruptedException {
+        init();
         boolean b = super.sendMessage(message);
-        return b;
+
+        logger.info("发送mq结果："+b);
+        consumerMessage = "默认值";
+//        Thread.sleep(1000*10);
+        return b?"成功":"失败";
     }
+
+//    class ConsumerMq extends BaseMqConsumerHandler {
+//
+//        @Value("${mq.consumer.group}")
+//        private String customerGroup;
+//
+//        @Value("${mq.nameserver.addr}")
+//        private String namesrvAddr;
+//
+//        @Value("${mq.test.topic}")
+//        private String topic;
+//
+//        @PostConstruct
+//        @Override
+//        public void init() {
+//            super.customerGroup = customerGroup;
+//            super.namesrvAddr = namesrvAddr;
+//            super.topic = topic;
+//            initMq(true);
+//        }
+//
+//        @Override
+//        public void handleMessage(List<MessageExt> msgs) {
+//            for (MessageExt messageExt:msgs){
+//                String body = new String(messageExt.getBody());
+//                JSONObject jsonObject = JSONObject.parseObject(body);
+//                consumerMessage = jsonObject.getString("message");
+//                logger.info("消费mq 成功");
+//            }
+//        }
+//    }
 }
